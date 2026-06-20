@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.venv/
+
+# Editor / OS
+.vscode/
+.DS_Store
+
+# Generated artifacts
+clips/
+report.html
+
+# Log data (regenerate test.mcap with `python make_test_bag.py`)
+*.mcap
+*.bag
