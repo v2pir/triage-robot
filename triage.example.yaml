@@ -1,0 +1,34 @@
+# Example triage config. Pass with:  triage run mybag.mcap --config triage.example.yaml
+#
+# Every key is optional. Omitted detectors run with defaults; `enabled: false`
+# turns one off. The values shown here ARE the defaults -- change them to match
+# your robot's topic names and dynamics.
+
+detectors:
+  dropout:
+    gap_factor: 5.0        # gap must exceed this x the topic's median interval
+    min_gap_s: 0.5         # ...and be at least this many seconds
+    min_samples: 10        # need this many messages to judge a topic
+
+  divergence:
+    cmd_topic: /cmd_vel    # commanded velocity (geometry_msgs/Twist)
+    actual_topic: /odom    # measured velocity (nav_msgs/Odometry)
+    min_duration_s: 0.75
+
+  jump:
+    topic: /odom           # odometry to watch for teleports
+    min_jump_m: 0.5        # a single-step jump this large (and >> normal) is flagged
+
+  freeze:
+    min_freeze_s: 2.0
+    ignore_topics: [/rosout, /tf_static, /clock]
+
+  error_burst:
+    log_topics: [/rosout]
+    window_s: 3.0
+    threshold: 5           # this many error-level logs in a window = a burst
+
+  range:
+    rules:
+      - {topic: /battery_state, field: percentage, low: 0.0, high: 1.0, label: battery %}
+      # - {topic: /imu/data, field: linear_acceleration.z, low: -40, high: 40, label: accel Z}
