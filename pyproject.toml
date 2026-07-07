@@ -5,23 +5,41 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "robot-triage"
 version = "0.1.0"
-description = "Triage robot logs (.mcap/.bag) for common-sense failures."
+description = "Triage robot logs (.mcap/.bag): auto-flag dropouts, divergence, error bursts and more, with one-click replay."
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
 authors = [{ name = "Vansh Chhabra", email = "vansh.chhabra343@gmail.com" }]
+keywords = ["robotics", "ros", "ros2", "rosbag", "mcap", "foxglove", "logging", "triage"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Debuggers",
+]
 dependencies = [
-    "mcap>=1.1",
-    "rosbags>=0.9",
-    "pyyaml>=5.0",
+    "mcap>=1.1",     # read/write .mcap
+    "rosbags>=0.9",  # read ROS 1 .bag (and ROS 2 bags)
+    "pyyaml>=5.0",   # read the topic/threshold config (also parses JSON)
 ]
 
+[project.urls]
+Homepage = "https://github.com/v2pir/triage-robot"
+Repository = "https://github.com/v2pir/triage-robot"
+Issues = "https://github.com/v2pir/triage-robot/issues"
+
 [project.optional-dependencies]
+# Decode ROS 2 (cdr) messages inside .mcap files.
 ros2 = ["mcap-ros2-support>=0.5"]
 dev = ["pytest>=7.0"]
 
 [project.scripts]
+# These make `triage run file.mcap` work after `pip install`.
+# Two names for the same tool: the short `triage` and a collision-proof alias.
 triage = "robot_triage.cli:main"
+robot-triage = "robot_triage.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["robot_triage*"]
